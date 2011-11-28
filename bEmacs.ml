@@ -1,3 +1,9 @@
+(* TODO:
+   - Neutral faces get translated (variable -> font-lock-variable-name-face)
+   - Emacs-understandable names get whitelisted (org-level-1 ok,
+     pat-vim-highlihgt not ok)
+*)
+
 module M  = Map
 module CS = ColorScheme
 module SM = CS.StringMap
@@ -21,15 +27,27 @@ let print_map key_map pr ppf m =
 (******************************************************************************)
 
 let face_map =
-  [("keyword", "font-lock-keyword-face");
-   ("comment", "font-lock-comment-face")]
+  [ ("selection",    "region")
+  ; ("keyword",      "font-lock-keyword-face")
+  ; ("comment",      "font-lock-comment-face")
+  ; ("builtin",      "font-lock-builtin-face")
+  ; ("variable",     "font-lock-variable-name-face")
+  ; ("function",     "font-lock-function-name-face")
+  ; ("type",         "font-lock-type-face")
+  ; ("string",       "font-lock-string-face")
+  ; ("preprocessor", "font-lock-preprocessor-face")
+  ; ("warning",      "font-lock-warning-face")
+  ]
 
 let attribute_map =
-  [("color", "foreground")]
+  [ ("color",       "foreground")
+  ; ("font-weight", "weight")
+  ]
 
 let body_face_attribute_map =
-  [("color",      "foreground-color");
-   ("background", "background-color")]
+  [ ("color",      "foreground-color")
+  ; ("background", "background-color")
+  ]
 
 (******************************************************************************)
 (**************************** Color scheme printers ***************************)
@@ -60,7 +78,6 @@ let print_body_face_option ppf = function
         print_attribute v
     end face
 
-(* pmr: swap order of params *)
 let print ppf {CS.name = name; CS.faces = faces} =
   let body_opt, faces = CS.extract_face faces "body" in
     F.fprintf ppf "(defun color-theme-%s ()@." name;

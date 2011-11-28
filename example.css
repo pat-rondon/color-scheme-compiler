@@ -1,12 +1,12 @@
 def colors {
     dark-gray   : #4a4a4a;
     medium-gray : #858585;
-    light-gray  : "gray92";
-    green       : "SeaGreen";
+    light-gray  : rgb (235, 235, 235);
+    green       : rgb (46, 139, 87);
     purple      : #72275a;
-    yellow      : "LightGoldenrod1";
-    orange      : "DarkOrange1";
-    red         : "firebrick";
+    yellow      : rgb (255, 236, 139);
+    orange      : rgb (255, 127, 0);
+    red         : rgb (178, 34, 34);
     teal        : #308876;
     light-blue  : #4189a4;
     blue        : #325f9f;
@@ -14,35 +14,44 @@ def colors {
     steel-blue  : #606b85;
 }
 
-body {
-    background: "white";
-    foreground: colors.dark-gray;
-}
+body           { background : "white";
+                 foreground : colors.dark-gray;
+               }
 
-comment {
-    color: colors.medium-gray;
-}
+comment        { color: colors.medium-gray; }
+builtin        { color: colors.blue; }
+keyword        { color: colors.blue; }
+variable       { color: colors.light-blue; }
+function       { color: colors.light-blue; }
+string         { color: colors.steel-blue; }
+type           { color: colors.teal; }
+preprocessor   { color: colors.purple; }
+warning        { color       : colors.orange;
+                 font-weight : "bold";
+               }
+selection      { background : colors.faint-blue; }
+paren-match    { background : colors.yellow; }
+paren-mismatch { color      : "white";
+                 background : colors.purple;
+               }
 
-builtin {
+// Emacs-specific colors
+
+mode-line          { color      : "white";
+                     background : colors.dark-gray; }
+mode-line-inactive { color      : colors.medium-gray;
+                     background : colors.light-gray; }
+
+// Emacs Tuareg mode colors
+
+tuareg-font-lock-governing-face {
     color: colors.blue;
 }
 
-keyword {
+tuareg-font-lock-operator-face {
     color: colors.blue;
 }
 
-variable {
-    color: colors.light-blue;
-}
-
-function {
-    color: colors.light-blue;
-}
-
-string {
-    color: colors.steel-blue;
-}
-
-type {
-    color: colors.teal;
+caml-types-expr-face {
+    background: colors.yellow;
 }
