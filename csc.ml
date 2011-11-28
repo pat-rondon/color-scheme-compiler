@@ -11,13 +11,14 @@ let m =
   }
 
 (* options *)
-let backend  = ref BEmacs.print
+let backend  = ref (module BEmacs: Backend.M)
 let filename = ref ""
+let ostdout  = ref false
 
 let backends =
-  [ "emacs", BEmacs.print
-  ; "vim"  , BVim.print
-  ; "css"  , BCSS.print
+  [ "emacs", (module BEmacs: Backend.M)
+  ; "vim"  , (module BVim: Backend.M)
+  ; "css"  , (module BCSS: Backend.M)
   ]
 
 let backend_names =
@@ -32,6 +33,8 @@ let set_backend name =
 let arg_spec = Arg.align
   [ "-backend", Arg.Symbol (backend_names, set_backend)
               , " Set backend for generating color scheme"
+  ; "-stdout" , Arg.Set ostdout
+              , " Send output to stdout"
   ]
 
 let usage = String.concat "\n"
@@ -46,12 +49,22 @@ let (|>) x f = f x
 
 let main () =
   Arg.parse arg_spec (fun f -> filename := f) usage;
+  let module BE = (val !backend : Backend.M) in
+  let ppf =
+    if !ostdout then
+      Format.std_formatter
+    else
+      !filename
+        |> BE.out_name
+        |> open_out
+        |> Format.formatter_of_out_channel
+  in
   try
     !filename
       |> open_in
       |> Lexing.from_channel
       |> Parser.color_scheme Lexer.token
-      |> !backend Format.std_formatter
+      |> BE.print ppf
   with Sys_error ": No such file or directory" ->
     Arg.usage arg_spec usage
 
