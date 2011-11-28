@@ -4,6 +4,7 @@
 %token COLON SEMICOLON
 %token PROJECT
 %token RGB
+%token <(int * int * int)> HexColor
 %token <string> Id
 %token <int> Number
 %token <string> String
@@ -37,12 +38,9 @@ face_attribute:
 ;
 
 attribute_value:
-    rgb_color { $1 }
-  | String    { ColorScheme.String $1 }
-;
-
-rgb_color:
-  RGB LEFT_PAREN Number COMMA Number COMMA Number RIGHT_PAREN {
-    ColorScheme.Color ($3, $5, $7)
-  }
+    RGB LEFT_PAREN Number COMMA Number COMMA Number RIGHT_PAREN {
+      ColorScheme.Color ($3, $5, $7)
+    }
+  | HexColor { let r, g, b = $1 in ColorScheme.Color (r, g, b) }
+  | String   { ColorScheme.String $1 }
 ;
