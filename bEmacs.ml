@@ -44,7 +44,7 @@ let print_face_attributes =
     attribute_map
     (fun ppf k v -> F.fprintf ppf ":%s %a@;" k print_attribute v)
 
-let print_color_scheme =
+let print_faces =
   print_map
     face_map
     begin fun ppf k v ->
@@ -60,16 +60,14 @@ let print_body_face_option ppf = function
         print_attribute v
     end face
 
-let name = "test"
-
 (* pmr: swap order of params *)
-let print cs ppf =
-  let body_opt, cs = CS.extract_face cs "body" in
+let print {CS.name = name; CS.faces = faces} ppf =
+  let body_opt, faces = CS.extract_face faces "body" in
     F.fprintf ppf "(defun color-theme-%s ()@." name;
     F.fprintf ppf "  (interactive)@.";
     F.fprintf ppf "  (color-theme-install@.";
     F.fprintf ppf "    `(color-theme-%s@." name;
     F.fprintf ppf "      (@[%a@])@." print_body_face_option body_opt;
-    F.fprintf ppf "      @[%a@]@." print_color_scheme cs;
+    F.fprintf ppf "      @[%a@]@." print_faces faces;
     F.fprintf ppf "  )))@.";
     F.fprintf ppf "(provide 'color-theme-%s)@." name
