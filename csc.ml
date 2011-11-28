@@ -10,5 +10,23 @@ let m =
                            ]
   }
 
-(* CSS also *)
-let _ = BEmacs.print m F.std_formatter
+let arg_spec = [
+]
+
+let usage = "USAGE"
+
+let filename = ref "-"
+
+type backend = { print: ColorScheme.t -> F.formatter -> unit }
+
+let be = ref { print = BEmacs.print }
+
+let main () =
+  let _   = Arg.parse arg_spec (fun f -> filename := f) usage in
+  let f   = open_in !filename in
+  let lex = Lexing.from_channel f in
+  let cs  = Parser.color_scheme Lexer.token lex in
+  let _   = !be.print cs Format.std_formatter in
+    ()
+
+let _ = main ()
