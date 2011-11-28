@@ -4,7 +4,7 @@ module CS = ColorScheme
 module SM = CS.StringMap
 
 let attr_str = function
-  | CS.Color (r, g, b) -> F.sprintf "#%X%X%X" r g b
+  | CS.Color (r, g, b) -> F.sprintf "#%02X%02X%02X" r g b
   | CS.String s        -> F.sprintf "%s" s
 
 let fg attrs =
@@ -41,11 +41,11 @@ let gui attrs =
   else
     "gui=" ^ (String.concat "," !props)
 
-let print_color_scheme cs ppf =
+let print_faces faces ppf =
   SM.iter begin fun face attrs ->
-    F.fprintf ppf "hi %-12s %-12s %-12s %-12s@."
+    F.fprintf ppf "hi %-15s %-15s %-15s %s@."
       face (fg attrs) (bg attrs) (gui attrs);
-  end cs
+  end faces
 
 let print_prelude body_opt name ppf =
   F.fprintf ppf "%s" (String.concat "\n"
@@ -60,12 +60,12 @@ let print_prelude body_opt name ppf =
     ]);
   match body_opt with
     | Some attrs ->
-        F.fprintf ppf "hi %-12s %-12s %-12s %-12s@."
+        F.fprintf ppf "hi %-15s %-15s %-15s %s@."
           "Normal" (fg attrs) (bg attrs) (gui attrs);
     | None -> ()
 
-let print cs ppf =
-  let body_opt, cs = CS.extract_face cs "body" in
-  print_prelude body_opt "test" ppf;
-  print_color_scheme cs ppf
+let print {CS.name = name; CS.faces = faces} ppf =
+  let body_opt, faces = CS.extract_face faces "body" in
+  print_prelude body_opt name ppf;
+  print_faces faces ppf
 
