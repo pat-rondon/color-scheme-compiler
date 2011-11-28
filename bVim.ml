@@ -39,7 +39,7 @@ let gui attrs =
   if !props = [] then
     ""
   else
-    "gui=" ^ String.concat "," !props
+    "gui=" ^ (String.concat "," !props)
 
 let print_color_scheme cs ppf =
   SM.iter begin fun face attrs ->
@@ -47,16 +47,25 @@ let print_color_scheme cs ppf =
       face (fg attrs) (bg attrs) (gui attrs);
   end cs
 
-let print cs ppf =
+let print_prelude body_opt name ppf =
   F.fprintf ppf "%s" (String.concat "\n"
     [ "set background=TODO"
     ; "hi clear"
     ; "if exists(\"syntax_on\")"
     ; "  syntax reset"
     ; "endif"
-    ; "let g:colors_name = \"TODO\""
+    ; "let g:colors_name = \"" ^ name ^ "\""
     ; ""
     ; ""
     ]);
+  match body_opt with
+    | Some attrs ->
+        F.fprintf ppf "hi %-12s %-12s %-12s %-12s@."
+          "Normal" (fg attrs) (bg attrs) (gui attrs);
+    | None -> ()
+
+let print cs ppf =
+  let body_opt, cs = CS.extract_face cs "body" in
+  print_prelude body_opt "test" ppf;
   print_color_scheme cs ppf
 
