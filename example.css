@@ -1,0 +1,48 @@
+def colors {
+    dark-gray   : #4a4a4a;
+    medium-gray : #858585;
+    light-gray  : "gray92";
+    green       : "SeaGreen";
+    purple      : #72275a;
+    yellow      : "LightGoldenrod1";
+    orange      : "DarkOrange1";
+    red         : "firebrick";
+    teal        : #308876;
+    light-blue  : #4189a4;
+    blue        : #325f9f;
+    faint-blue  : #dfe8f1;
+    steel-blue  : #606b85;
+}
+
+body {
+    background: "white";
+    foreground: colors.dark-gray;
+}
+
+comment {
+    color: colors.medium-gray;
+}
+
+builtin {
+    color: colors.blue;
+}
+
+keyword {
+    color: colors.blue;
+}
+
+variable {
+    color: colors.light-blue;
+}
+
+function {
+    color: colors.light-blue;
+}
+
+string {
+    color: colors.steel-blue;
+}
+
+type {
+    color: colors.teal;
+}
