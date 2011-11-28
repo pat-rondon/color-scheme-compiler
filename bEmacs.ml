@@ -78,7 +78,6 @@ let print_body_face_option ppf = function
         print_attribute v
     end face
 
-(* pmr: swap order of params *)
 let print ppf {CS.name = name; CS.faces = faces} =
   let body_opt, faces = CS.extract_face faces "body" in
     F.fprintf ppf "(defun color-theme-%s ()@." name;
