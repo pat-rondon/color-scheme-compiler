@@ -23,9 +23,9 @@ rule token = parse
   | ";"                 { SEMICOLON }
   | ","                 { COMMA }
   | "->"                { PROJECT }
+  | "rgb"               { RGB }
   | alpha(alpha|digit)* { Id (Lexing.lexeme lexbuf) }
   | digit+              { Number (int_of_string (Lexing.lexeme lexbuf)) }
-  | "rgb"               { RGB }
   | '"' [^'"']* '"'     {
     let s = Lexing.lexeme lexbuf in
       String (String.sub s 1 (String.length s - 2))
