@@ -8,18 +8,15 @@ let attr_str = function
   | CS.String s        -> F.sprintf "%s" s
 
 let fg attrs =
-  try
-    "guifg=" ^ attr_str (SM.find "color" attrs)
+  try "guifg=" ^ attr_str (SM.find "color" attrs)
   with Not_found -> ""
 
 let bg attrs =
-  try
-    "guibg=" ^ attr_str (SM.find "background" attrs)
+  try "guibg=" ^ attr_str (SM.find "background" attrs)
   with Not_found -> ""
 
 let attrs_bind k v attrs =
-  try
-    SM.find k attrs = CS.String v
+  try SM.find k attrs = CS.String v
   with Not_found -> false
 
 let gui attrs =
@@ -47,9 +44,23 @@ let print_faces faces ppf =
       face (fg attrs) (bg attrs) (gui attrs);
   end faces
 
+let bg_summary body_opt =
+  match body_opt with
+    | Some attrs ->
+      begin try match SM.find "background" attrs with
+        | CS.Color (r, g, b) ->
+          (* ztatlock: determine better test *)
+          if (r + g + b) / 3 > 256 / 2 then
+            "set background=light"
+          else
+            "set background=dark"
+        | _ -> ""
+      with Not_found -> "" end
+    | None -> ""
+
 let print_prelude body_opt name ppf =
   F.fprintf ppf "%s" (String.concat "\n"
-    [ "set background=TODO"
+    [ bg_summary body_opt
     ; "hi clear"
     ; "if exists(\"syntax_on\")"
     ; "  syntax reset"
@@ -60,8 +71,8 @@ let print_prelude body_opt name ppf =
     ]);
   match body_opt with
     | Some attrs ->
-        F.fprintf ppf "hi %-15s %-15s %-15s %s@."
-          "Normal" (fg attrs) (bg attrs) (gui attrs);
+      F.fprintf ppf "hi %-15s %-15s %-15s %s@."
+        "Normal" (fg attrs) (bg attrs) (gui attrs);
     | None -> ()
 
 let print {CS.name = name; CS.faces = faces} ppf =
