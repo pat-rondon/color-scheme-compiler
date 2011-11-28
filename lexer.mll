@@ -27,8 +27,9 @@ rule token = parse
   | ":"                    { COLON }
   | ";"                    { SEMICOLON }
   | ","                    { COMMA }
-  | "->"                   { PROJECT }
+  | "."                    { PROJECT }
   | "rgb"                  { RGB }
+  | "def"                  { DEFINITION }
   | "#" (hexdouble as r) (hexdouble as g) (hexdouble as b) {
     HexColor (int_of_hex_string r, int_of_hex_string g, int_of_hex_string b)
   }
