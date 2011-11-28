@@ -1,18 +1,19 @@
 %{
 
  module CS = ColorScheme
+ module SM = CS.StringMap
 
  type def_kind =
    | Face
    | Definition
 
- let defs = ref CS.StringMap.empty
+ let defs = ref SM.empty
 
- let add_def name face = defs := CS.StringMap.add name face !defs
+ let add_def name face = defs := SM.add name face !defs
 
  let find_def face attr =
    try
-     CS.StringMap.find attr (CS.StringMap.find face !defs)
+     SM.find attr (SM.find face !defs)
    with Not_found ->
      let _ = Format.printf "Cannot find attribute %s.%s@." face attr in
        assert false
@@ -38,16 +39,16 @@
 
 %%
 color_scheme:
-    defs { { ColorScheme.name = ""; ColorScheme.faces = $1} }
+    defs { { CS.name = ""; CS.faces = $1} }
 ;
 
 defs:
-             { ColorScheme.StringMap.empty }
+             { SM.empty }
   | defs def {
     let kind, name, attrs = $2 in
       match kind with
         | Definition -> add_def name attrs; $1
-        | Face       -> ColorScheme.StringMap.add name attrs $1
+        | Face       -> SM.add name attrs $1
   }
 ;
 
@@ -61,8 +62,8 @@ def_aux:
 ;
 
 face_attributes:
-                                   { ColorScheme.StringMap.empty }
-  | face_attributes face_attribute { ColorScheme.StringMap.add (fst $2) (snd $2) $1 }
+                                   { SM.empty }
+  | face_attributes face_attribute { SM.add (fst $2) (snd $2) $1 }
 ;
 
 face_attribute:
@@ -71,9 +72,9 @@ face_attribute:
 
 attribute_value:
     RGB LEFT_PAREN Number COMMA Number COMMA Number RIGHT_PAREN {
-      ColorScheme.Color ($3, $5, $7)
+      CS.Color ($3, $5, $7)
     }
-  | HexColor      { let r, g, b = $1 in ColorScheme.Color (r, g, b) }
-  | String        { ColorScheme.String $1 }
+  | HexColor      { let r, g, b = $1 in CS.Color (r, g, b) }
+  | String        { CS.String $1 }
   | Id PROJECT Id { find_def $1 $3 }
 ;
