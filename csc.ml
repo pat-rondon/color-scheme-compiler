@@ -1,18 +1,9 @@
 module F  = Format
 module CS = ColorScheme
 
-let m =
-  { CS.name  = "charybdis"
-  ; CS.faces =  CS.of_list [("keyword", CS.of_list [("color", CS.Color (0, 182, 255))]);
-                            ("comment", CS.of_list [("color", CS.Color (100, 100, 100))]);
-                            ("body", CS.of_list [("background", CS.String "LightGoldenrod1");
-                                                 ("color", CS.Color (0, 0, 255))])
-                           ]
-  }
-
 (* options *)
 let backend  = ref (module BEmacs: Backend.M)
-let filename = ref ""
+let filename = ref "-"
 let ostdout  = ref false
 
 let backends =
@@ -28,7 +19,7 @@ let set_backend name =
   try
     backend := List.assoc name backends
   with Not_found ->
-    F.eprintf "set_backend: bad name '%s'\n" name;
+    F.eprintf "set_backend: bad name '%s'@." name;
     exit 1
 
 let arg_spec = Arg.align
@@ -39,19 +30,29 @@ let arg_spec = Arg.align
   ]
 
 let usage = String.concat "\n"
-  [ "USAGE: csc [options] spec.css"
+  [ "USAGE: csc [options] [spec.css]"
   ; ""
   ; "Compile spec.css to color scheme for desired target."
+  ; "If no spec is provided, read from standard input."
   ; ""
   ; "Options:"
   ]
 
 let parse f =
-  let lexbuf = Lexing.from_channel (open_in f) in
+  let ic =
+    match f with
+    | "-" -> stdin
+    | _ ->
+        try open_in f
+        with Sys_error ": No such file or directory" ->
+          F.eprintf "Error: could not open '%s'@." f;
+          exit 1
+  in
+  let lexbuf = Lexing.from_channel ic in
   try
     Parser.color_scheme Lexer.token lexbuf
   with Parsing.Parse_error ->
-    F.eprintf "Parser: error on line %d, col %d\n"
+    F.eprintf "Parser: error on line %d, col %d@."
       lexbuf.Lexing.lex_curr_p.Lexing.pos_lnum
      (lexbuf.Lexing.lex_curr_p.Lexing.pos_cnum -
       lexbuf.Lexing.lex_curr_p.Lexing.pos_bol);
@@ -71,12 +72,9 @@ let main () =
         |> open_out
         |> F.formatter_of_out_channel
   in
-  try
-    !filename
-      |> parse
-      |> BE.print ppf
-  with Sys_error ": No such file or directory" ->
-    Arg.usage arg_spec usage
+  !filename
+    |> parse
+    |> BE.print ppf
 
 let _ =
   main ()
