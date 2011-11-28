@@ -61,7 +61,7 @@ let print_body_face_option ppf = function
     end face
 
 (* pmr: swap order of params *)
-let print {CS.name = name; CS.faces = faces} ppf =
+let print ppf {CS.name = name; CS.faces = faces} =
   let body_opt, faces = CS.extract_face faces "body" in
     F.fprintf ppf "(defun color-theme-%s ()@." name;
     F.fprintf ppf "  (interactive)@.";

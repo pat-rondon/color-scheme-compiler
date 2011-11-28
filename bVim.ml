@@ -75,7 +75,7 @@ let print_prelude body_opt name ppf =
         "Normal" (fg attrs) (bg attrs) (gui attrs);
     | None -> ()
 
-let print {CS.name = name; CS.faces = faces} ppf =
+let print ppf {CS.name = name; CS.faces = faces} =
   let body_opt, faces = CS.extract_face faces "body" in
   print_prelude body_opt name ppf;
   print_faces faces ppf

@@ -1,3 +1,3 @@
 module type M = sig
-  val print : ColorScheme.t -> Format.formatter -> unit
+  val print : Format.formatter -> ColorScheme.t -> unit
 end

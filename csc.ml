@@ -10,23 +10,51 @@ let m =
                            ]
   }
 
-let arg_spec = [
-]
+(* options *)
+let backend  = ref BEmacs.print
+let filename = ref ""
 
-let usage = "USAGE"
+let backends =
+  [ "emacs", BEmacs.print
+  ; "vim"  , BVim.print
+  ; "css"  , BCSS.print
+  ]
 
-let filename = ref "-"
+let backend_names =
+  List.map fst backends
 
-type backend = { print: ColorScheme.t -> F.formatter -> unit }
+let set_backend name =
+  try
+    backend := List.assoc name backends
+  with Not_found ->
+    failwith ("set_backend: bad name '" ^ name ^ "'")
 
-let be = ref { print = BEmacs.print }
+let arg_spec = Arg.align
+  [ "-backend", Arg.Symbol (backend_names, set_backend)
+              , " Set backend for generating color scheme"
+  ]
+
+let usage = String.concat "\n"
+  [ "USAGE: csc [options] spec.css"
+  ; ""
+  ; "Compile spec.css to color scheme for desired target."
+  ; ""
+  ; "Options:"
+  ]
+
+let (|>) x f = f x
 
 let main () =
-  let _   = Arg.parse arg_spec (fun f -> filename := f) usage in
-  let f   = open_in !filename in
-  let lex = Lexing.from_channel f in
-  let cs  = Parser.color_scheme Lexer.token lex in
-  let _   = !be.print cs Format.std_formatter in
-    ()
+  Arg.parse arg_spec (fun f -> filename := f) usage;
+  try
+    !filename
+      |> open_in
+      |> Lexing.from_channel
+      |> Parser.color_scheme Lexer.token
+      |> !backend Format.std_formatter
+  with Sys_error ": No such file or directory" ->
+    Arg.usage arg_spec usage
 
-let _ = main ()
+let _ =
+  main ()
+
