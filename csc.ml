@@ -28,7 +28,8 @@ let set_backend name =
   try
     backend := List.assoc name backends
   with Not_found ->
-    failwith ("set_backend: bad name '" ^ name ^ "'")
+    F.eprintf "set_backend: bad name '%s'\n" name;
+    exit 1
 
 let arg_spec = Arg.align
   [ "-backend", Arg.Symbol (backend_names, set_backend)
@@ -45,6 +46,17 @@ let usage = String.concat "\n"
   ; "Options:"
   ]
 
+let parse f =
+  let lexbuf = Lexing.from_channel (open_in f) in
+  try
+    Parser.color_scheme Lexer.token lexbuf
+  with Parsing.Parse_error ->
+    F.eprintf "Parser: error on line %d, col %d\n"
+      lexbuf.Lexing.lex_curr_p.Lexing.pos_lnum
+     (lexbuf.Lexing.lex_curr_p.Lexing.pos_cnum -
+      lexbuf.Lexing.lex_curr_p.Lexing.pos_bol);
+    exit 1
+
 let (|>) x f = f x
 
 let main () =
@@ -52,18 +64,16 @@ let main () =
   let module BE = (val !backend : Backend.M) in
   let ppf =
     if !ostdout then
-      Format.std_formatter
+      F.std_formatter
     else
       !filename
         |> BE.out_name
         |> open_out
-        |> Format.formatter_of_out_channel
+        |> F.formatter_of_out_channel
   in
   try
     !filename
-      |> open_in
-      |> Lexing.from_channel
-      |> Parser.color_scheme Lexer.token
+      |> parse
       |> BE.print ppf
   with Sys_error ": No such file or directory" ->
     Arg.usage arg_spec usage
