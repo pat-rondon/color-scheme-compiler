@@ -24,12 +24,9 @@ rule token = parse
   | ","                 { COMMA }
   | "->"                { PROJECT }
   | "rgb"               { RGB }
-  | alpha(alpha|digit)* { Id (Lexing.lexeme lexbuf) }
-  | digit+              { Number (int_of_string (Lexing.lexeme lexbuf)) }
-  | '"' [^'"']* '"'     {
-    let s = Lexing.lexeme lexbuf in
-      String (String.sub s 1 (String.length s - 2))
-  }
+  | alpha(alpha|digit)*  { Id (Lexing.lexeme lexbuf) }
+  | digit+               { Number (int_of_string (Lexing.lexeme lexbuf)) }
+  | '"' ([^'"']* as s) '"' { String s }
   | eof	                { EOF }
   | _                   { begin
                             (* lexerror ("Illegal Character '" ^  *)
