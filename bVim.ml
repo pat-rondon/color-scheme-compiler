@@ -4,6 +4,35 @@ module FN = Filename
 module CS = ColorScheme
 module SM = CS.StringMap
 
+(* translation to vim faces  *)
+(* see help syntax for names *)
+let face_map =
+  [ "comment",      "Comment"
+  ; "constant",     "Constant"
+  ; "bool",         "Boolean"
+  ; "char",         "Character"
+  ; "string",       "String"
+  ; "int",          "Number"
+  ; "float",        "Float"
+  ; "variable",     "Identifier"
+  ; "function",     "Function"
+  ; "statement",    "Statement"
+  ; "branch",       "Conditional"
+  ; "loop",         "Repeat"
+  ; "case",         "Label"
+  ; "builtin",      "Operator"
+  ; "keyword",      "Keyword"
+  ; "exception",    "Exception"
+  ; "preprocessor", "PreProc"
+  ; "type",         "Type"
+  ; "struct",       "Structure"
+  ; "error",        "Error"
+  ; "todo",         "Todo"
+  ; "warning",      "WarningMsg"
+  ; "selection",    "Visual"
+  ; "paren-match",  "MatchParen"
+  ]
+
 let attr_str = function
   | CS.Color (r, g, b) -> F.sprintf "#%02X%02X%02X" r g b
   | CS.String s        -> F.sprintf "%s" s
@@ -38,8 +67,10 @@ let gui attrs =
 
 let print_faces faces ppf =
   SM.iter begin fun face attrs ->
-    F.fprintf ppf "hi %-15s %-15s %-15s %s@."
-      face (fg attrs) (bg attrs) (gui attrs);
+    try
+      F.fprintf ppf "hi %-15s %-15s %-15s %s@."
+        (List.assoc face face_map) (fg attrs) (bg attrs) (gui attrs);
+    with Not_found -> ()
   end faces
 
 let bg_summary body_opt =

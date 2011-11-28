@@ -23,9 +23,14 @@ builtin        { color: colors.blue; }
 keyword        { color: colors.blue; }
 variable       { color: colors.light-blue; }
 function       { color: colors.light-blue; }
+constant       { color: colors.green; }
 string         { color: colors.steel-blue; }
+statement      { color: colors.yellow; }
+struct         { color: colors.faint-blue; }
 type           { color: colors.teal; }
 preprocessor   { color: colors.purple; }
+error          { color: colors.red;
+                 font-weight: "bold"; }
 warning        { color       : colors.orange;
                  font-weight : "bold";
                }
@@ -34,6 +39,8 @@ paren-match    { background : colors.yellow; }
 paren-mismatch { color      : "white";
                  background : colors.purple;
                }
+todo           { color: colors.red; }
+
 
 // Emacs-specific colors
 
@@ -55,3 +62,15 @@ tuareg-font-lock-operator-face {
 caml-types-expr-face {
     background: colors.yellow;
 }
+
+
+// vim-specific colors
+bool      { color: colors.blue; }
+char      { color: colors.blue; }
+int       { color: colors.teal; }
+float     { color: colors.teal; }
+branch    { color: colors.yellow; }
+loop      { color: colors.yellow; }
+case      { color: colors.yellow; }
+exception { color: colors.yellow; }
+
