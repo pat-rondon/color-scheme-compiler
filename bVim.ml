@@ -1,11 +1,8 @@
 module M  = Map
 module F  = Format
-module P  = Printf
 module FN = Filename
 module CS = ColorScheme
 module SM = CS.StringMap
-
-let (|>) x f = f x
 
 let attr_str = function
   | CS.Color (r, g, b) -> F.sprintf "#%02X%02X%02X" r g b
@@ -25,9 +22,6 @@ let attrs_bind k v attrs =
 
 let gui attrs =
   let props = ref [] in
-  if attrs_bind "text-decoration" "undercurl" attrs then begin
-    props := "undercurl" :: !props
-  end;
   if attrs_bind "text-decoration" "underline" attrs then begin
     props := "underline" :: !props
   end;
@@ -85,7 +79,5 @@ let print ppf {CS.name = name; CS.faces = faces} =
   print_faces faces ppf
 
 let out_name f =
-  f |> FN.basename
-    |> FN.chop_suffix ".css"
-    |> P.sprintf "%s.vim"
+  (FN.chop_suffix f ".css") ^ ".vim"
 
