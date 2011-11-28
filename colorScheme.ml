@@ -9,3 +9,9 @@ type attribute =
 type t = (string StringMap.t) StringMap.t
 
 let of_list xs = List.fold_left (fun m (x, y) -> StringMap.add x y m) StringMap.empty xs
+
+let extract_face cs face =
+  try
+    (Some (StringMap.find face cs), StringMap.remove face cs)
+  with Not_found ->
+    (None, cs)
