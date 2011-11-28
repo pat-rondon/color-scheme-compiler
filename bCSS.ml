@@ -15,3 +15,7 @@ let print ppf {CS.name = name; CS.faces = faces} =
     end attrs;
     F.fprintf ppf "}@.@.";
   end faces
+
+let out_name f =
+    "TODO-css-out_name"
+

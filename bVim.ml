@@ -1,7 +1,11 @@
 module M  = Map
 module F  = Format
+module P  = Printf
+module FN = Filename
 module CS = ColorScheme
 module SM = CS.StringMap
+
+let (|>) x f = f x
 
 let attr_str = function
   | CS.Color (r, g, b) -> F.sprintf "#%02X%02X%02X" r g b
@@ -79,4 +83,9 @@ let print ppf {CS.name = name; CS.faces = faces} =
   let body_opt, faces = CS.extract_face faces "body" in
   print_prelude body_opt name ppf;
   print_faces faces ppf
+
+let out_name f =
+  f |> FN.basename
+    |> FN.chop_suffix ".css"
+    |> P.sprintf "%s.vim"
 
