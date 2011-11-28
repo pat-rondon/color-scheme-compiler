@@ -44,6 +44,10 @@ let attribute_map =
   ; ("font-weight", "weight")
   ]
 
+let unquoted_attributes =
+  [ "weight"
+  ]
+
 let body_face_attribute_map =
   [ ("color",      "foreground-color")
   ; ("background", "background-color")
@@ -53,14 +57,17 @@ let body_face_attribute_map =
 (**************************** Color scheme printers ***************************)
 (******************************************************************************)
 
-let print_attribute ppf = function
+let print_attribute attr ppf = function
   | CS.Color (r, g, b) -> F.fprintf ppf "\"#%02x%02x%02x\"" r g b (* pmr: factor out hex color printing *)
-  | CS.String s        -> F.fprintf ppf "\"%s\"" s
+  | CS.String s        ->
+    if List.mem attr unquoted_attributes then
+      F.fprintf ppf "%s" s
+    else F.fprintf ppf "\"%s\"" s
 
 let print_face_attributes =
   print_map
     attribute_map
-    (fun ppf k v -> F.fprintf ppf ":%s %a@;" k print_attribute v)
+    (fun ppf k v -> F.fprintf ppf ":%s %a@;" k (print_attribute k) v)
 
 let print_faces =
   print_map
@@ -75,7 +82,7 @@ let print_body_face_option ppf = function
     SM.iter begin fun attr v ->
       F.fprintf ppf "(%s . %a)@\n"
         (find_local_name body_face_attribute_map attr)
-        print_attribute v
+        (print_attribute attr) v
     end face
 
 let print ppf {CS.name = name; CS.faces = faces} =
