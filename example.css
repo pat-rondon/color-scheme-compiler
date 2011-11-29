@@ -14,7 +14,7 @@ def colors {
     steel-blue  : #606b85;
 }
 
-body           { background : "white";
+body           { background : white;
                  foreground : colors.dark-gray;
                }
 
@@ -30,13 +30,13 @@ struct         { color: colors.faint-blue; }
 type           { color: colors.teal; }
 preprocessor   { color: colors.purple; }
 error          { color: colors.red;
-                 font-weight: "bold"; }
+                 font-weight: bold; }
 warning        { color       : colors.orange;
-                 font-weight : "bold";
+                 font-weight : bold;
                }
 selection      { background : colors.faint-blue; }
 paren-match    { background : colors.yellow; }
-paren-mismatch { color      : "white";
+paren-mismatch { color      : white;
                  background : colors.purple;
                }
 todo           { color: colors.red; }
@@ -44,7 +44,7 @@ todo           { color: colors.red; }
 
 // Emacs-specific colors
 
-mode-line          { color      : "white";
+mode-line          { color      : white;
                      background : colors.dark-gray; }
 mode-line-inactive { color      : colors.medium-gray;
                      background : colors.light-gray; }

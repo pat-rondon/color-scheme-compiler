@@ -76,5 +76,6 @@ attribute_value:
     }
   | HexColor      { let r, g, b = $1 in CS.Color (r, g, b) }
   | String        { CS.String $1 }
+  | Id            { CS.String $1 }
   | Id PROJECT Id { find_def $1 $3 }
 ;
