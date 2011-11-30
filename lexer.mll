@@ -1,25 +1,21 @@
 {
   open Parser
-
-  let int_of_hex_string s =
-    int_of_string ("0x" ^ s)
 }
 
-let alpha = ['A'-'Z' 'a'-'z' '_' '-']
-let digit = ['0'-'9']
-
-let hexdigit = ['0'-'9' 'a'-'f' 'A'-'F']
-
-let hexdouble = hexdigit hexdigit
+let digit     = ['0'-'9']
+let alpha     = ['a'-'z' 'A'-'Z' '_' '-']
+let hexdigit  = ['0'-'9' 'a'-'f' 'A'-'F']
+let hex_color = "#" hexdigit hexdigit hexdigit hexdigit hexdigit hexdigit
 
 rule token = parse
-  | ['\r''\t'' ']          { token lexbuf}
-  | '\n'                   { Lexing.new_line lexbuf;
-                             token lexbuf
-                           }
-  | "//"[^'\n']*'\n'       { Lexing.new_line lexbuf;
-                             token lexbuf
-                           }
+  (* ignore whitespace and comments *)
+  | ['\r' '\t' ' '] { token lexbuf }
+  | "//"[^'\n']*    { token lexbuf }
+
+  (* count newlines *)
+  | '\n' { Lexing.new_line lexbuf; token lexbuf }
+
+  (* useful tokens *)
   | "{"                    { LEFT_CURLY }
   | "}"                    { RIGHT_CURLY }
   | "("                    { LEFT_PAREN }
@@ -30,14 +26,16 @@ rule token = parse
   | "."                    { PROJECT }
   | "rgb"                  { RGB }
   | "def"                  { DEFINITION }
-  | "#" (hexdouble as r) (hexdouble as g) (hexdouble as b) {
-    HexColor (int_of_hex_string r, int_of_hex_string g, int_of_hex_string b)
-  }
+  | hex_color              { HexColor (Lexing.lexeme lexbuf) }
   | alpha(alpha|digit)*    { Id (Lexing.lexeme lexbuf) }
   | digit+                 { Number (int_of_string (Lexing.lexeme lexbuf)) }
   | '"' ([^'"']* as s) '"' { String s }
   | eof	                   { EOF }
-  | _                      { let _ = Format.printf "Illegal keyword: %s@.@." (Lexing.lexeme lexbuf) in
-                             let _ = assert false in
-                               token lexbuf
-                           }
+
+  (* error *)
+  | _ {
+    Printf.eprintf "Lexer: bad input '%s' on line %d.\n"
+      (Lexing.lexeme lexbuf)
+      lexbuf.Lexing.lex_curr_p.Lexing.pos_lnum;
+    assert false
+  }

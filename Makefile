@@ -1,5 +1,5 @@
 all:
-	ocamlbuild csc.native
+	ocamlbuild -lib str csc.native
 
 clean:
 	ocamlbuild -clean

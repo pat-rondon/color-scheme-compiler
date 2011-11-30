@@ -1,76 +1,64 @@
 def colors {
-    dark-gray   : #4a4a4a;
-    medium-gray : #858585;
-    light-gray  : rgb (235, 235, 235);
-    green       : rgb (46, 139, 87);
-    purple      : #72275a;
-    yellow      : rgb (255, 236, 139);
-    orange      : rgb (255, 127, 0);
-    red         : rgb (178, 34, 34);
-    teal        : #308876;
-    light-blue  : #4189a4;
-    blue        : #325f9f;
-    faint-blue  : #dfe8f1;
-    steel-blue  : #606b85;
+  my-blue: #325f9f;
 }
 
 body           { background : white;
-                 foreground : colors.dark-gray;
+                 foreground : dark-gray;
                }
 
-comment        { color: colors.medium-gray; }
-builtin        { color: colors.blue; }
-keyword        { color: colors.blue; }
-variable       { color: colors.light-blue; }
-function       { color: colors.light-blue; }
-constant       { color: colors.green; }
-string         { color: colors.steel-blue; }
-statement      { color: colors.yellow; }
-struct         { color: colors.faint-blue; }
-type           { color: colors.teal; }
-preprocessor   { color: colors.purple; }
-error          { color: colors.red;
+comment        { color: medium-gray; }
+builtin        { color: colors.my-blue; }
+keyword        { color: colors.my-blue; }
+variable       { color: light-blue; }
+function       { color: light-blue; }
+constant       { color: green; }
+string         { color: steel-blue; }
+statement      { color: yellow; }
+struct         { color: faint-blue; }
+type           { color: teal; }
+preprocessor   { color: purple; }
+error          { color: red;
                  font-weight: bold; }
-warning        { color       : colors.orange;
+warning        { color       : orange;
                  font-weight : bold;
                }
-selection      { background : colors.faint-blue; }
-paren-match    { background : colors.yellow; }
+selection      { background : faint-blue; }
+paren-match    { background : yellow; }
 paren-mismatch { color      : white;
-                 background : colors.purple;
+                 background : purple;
                }
-todo           { color: colors.red; }
+todo           { color: red; }
 
 
 // Emacs-specific colors
 
 mode-line          { color      : white;
-                     background : colors.dark-gray; }
-mode-line-inactive { color      : colors.medium-gray;
-                     background : colors.light-gray; }
+                     background : dark-gray; }
+mode-line-inactive { color      : medium-gray;
+                     background : light-gray; }
 
 // Emacs Tuareg mode colors
 
 tuareg-font-lock-governing-face {
-    color: colors.blue;
+    color: blue;
 }
 
 tuareg-font-lock-operator-face {
-    color: colors.blue;
+    color: blue;
 }
 
 caml-types-expr-face {
-    background: colors.yellow;
+    background: yellow;
 }
 
 
 // vim-specific colors
-bool      { color: colors.blue; }
-char      { color: colors.blue; }
-int       { color: colors.teal; }
-float     { color: colors.teal; }
-branch    { color: colors.yellow; }
-loop      { color: colors.yellow; }
-case      { color: colors.yellow; }
-exception { color: colors.yellow; }
+bool      { color: blue; }
+char      { color: blue; }
+int       { color: teal; }
+float     { color: teal; }
+branch    { color: yellow; }
+loop      { color: yellow; }
+case      { color: yellow; }
+exception { color: yellow; }
 
