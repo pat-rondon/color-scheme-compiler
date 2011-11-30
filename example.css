@@ -16,26 +16,26 @@ def colors {
 }
 
 body           { background : white;
-                 foreground : dark-gray;
+                 foreground : colors.dark-gray;
                }
 
-comment        { color: medium-gray; }
+comment        { color: colors.medium-gray; }
 builtin        { color: colors.my-blue; }
 keyword        { color: colors.my-blue; }
-variable       { color: light-blue; }
-function       { color: light-blue; }
+variable       { color: colors.light-blue; }
+function       { color: colors.light-blue; }
 constant       { color: green; }
-string         { color: steel-blue; }
+string         { color: colors.steel-blue; }
 statement      { color: yellow; }
-struct         { color: faint-blue; }
-type           { color: teal; }
+struct         { color: colors.faint-blue; }
+type           { color: colors.teal; }
 preprocessor   { color: purple; }
 error          { color: red;
                  font-weight: bold; }
 warning        { color       : orange;
                  font-weight : bold;
                }
-selection      { background : faint-blue; }
+selection      { background : colors.faint-blue; }
 paren-match    { background : yellow; }
 paren-mismatch { color      : white;
                  background : purple;
@@ -46,9 +46,9 @@ todo           { color: red; }
 // Emacs-specific colors
 
 mode-line          { color      : white;
-                     background : dark-gray; }
-mode-line-inactive { color      : medium-gray;
-                     background : light-gray; }
+                     background : colors.dark-gray; }
+mode-line-inactive { color      : colors.medium-gray;
+                     background : colors.light-gray; }
 
 // Emacs Tuareg mode colors
 
@@ -68,8 +68,8 @@ caml-types-expr-face {
 // vim-specific colors
 bool      { color: blue; }
 char      { color: blue; }
-int       { color: teal; }
-float     { color: teal; }
+int       { color: colors.teal; }
+float     { color: colors.teal; }
 branch    { color: yellow; }
 loop      { color: yellow; }
 case      { color: yellow; }
