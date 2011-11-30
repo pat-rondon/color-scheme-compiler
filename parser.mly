@@ -9,34 +9,15 @@
 
  let defs = ref SM.empty
 
- let add_def name face = defs := SM.add name face !defs
+ let add_def name face =
+   defs := SM.add name face !defs
 
  let find_def face attr =
-   try
-     SM.find attr (SM.find face !defs)
-   with Not_found ->
-     let _ = Format.printf "Cannot find attribute %s.%s@." face attr in
-       assert false
-
- (* ztatlock: make all these hex_color *)
- (* ztatlock: add all X86 colors *)
- let colors =
-   [ "black",       CS.hex_color "#000000"
-   ; "white",       CS.hex_color "#FFFFFF"
-   ; "red",         CS.Color (178, 34, 34)
-   ; "green",       CS.Color (46, 139, 87)
-   ; "blue",        CS.hex_color "#325F9F"
-   ; "yellow",      CS.Color (255, 236, 139)
-   ; "purple",      CS.hex_color "#72275A"
-   ; "orange",      CS.Color (255, 127, 0)
-   ; "teal",        CS.hex_color "#308876"
-   ; "dark-gray",   CS.hex_color "#4A4A4A"
-   ; "medium-gray", CS.hex_color "#858585"
-   ; "light-gray",  CS.Color (235, 235, 235)
-   ; "light-blue",  CS.hex_color "#4189A4"
-   ; "faint-blue",  CS.hex_color "#DFE8F1"
-   ; "steel-blue",  CS.hex_color "#606B85"
-   ]
+   try SM.find attr (SM.find face !defs)
+   with Not_found -> begin
+     Format.eprintf "Cannot find attribute %s.%s@." face attr;
+     assert false
+   end
 
 %}
 
