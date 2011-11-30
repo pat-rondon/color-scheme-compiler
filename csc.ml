@@ -14,7 +14,7 @@ let arg_spec = Arg.align
   [ "-emacs"  , Arg.Unit set_emacs, " Use emacs backend"
   ; "-vim"    , Arg.Unit set_vim,   " Use vim backend"
   ; "-css"    , Arg.Unit set_css,   " Use css backend"
-  ; "-stdout" , Arg.Set ostdout,    " Send output to stdout"
+  ; "-stdout" , Arg.Set ostdout,    " Output to stdout"
   ]
 
 let usage = String.concat "\n"
