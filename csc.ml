@@ -6,27 +6,15 @@ let backend  = ref (module BEmacs: Backend.M)
 let filename = ref "-"
 let ostdout  = ref false
 
-let backends =
-  [ "emacs", (module BEmacs: Backend.M)
-  ; "vim"  , (module BVim: Backend.M)
-  ; "css"  , (module BCSS: Backend.M)
-  ]
-
-let backend_names =
-  List.map fst backends
-
-let set_backend name =
-  try
-    backend := List.assoc name backends
-  with Not_found ->
-    F.eprintf "set_backend: bad name '%s'@." name;
-    exit 1
+let set_emacs () = backend := (module BEmacs: Backend.M)
+let set_vim   () = backend := (module BVim: Backend.M)
+let set_css   () = backend := (module BCSS: Backend.M)
 
 let arg_spec = Arg.align
-  [ "-backend", Arg.Symbol (backend_names, set_backend)
-              , " Set backend for generating color scheme"
-  ; "-stdout" , Arg.Set ostdout
-              , " Send output to stdout"
+  [ "-emacs"  , Arg.Unit set_emacs, " Use emacs backend"
+  ; "-vim"    , Arg.Unit set_vim,   " Use vim backend"
+  ; "-css"    , Arg.Unit set_css,   " Use css backend"
+  ; "-stdout" , Arg.Set ostdout,    " Send output to stdout"
   ]
 
 let usage = String.concat "\n"
@@ -42,11 +30,7 @@ let parse f =
   let ic =
     match f with
     | "-" -> stdin
-    | _ ->
-        try open_in f
-        with Sys_error ": No such file or directory" ->
-          F.eprintf "Error: could not open '%s'@." f;
-          exit 1
+    | _   -> open_in f
   in
   let lexbuf = Lexing.from_channel ic in
   try
