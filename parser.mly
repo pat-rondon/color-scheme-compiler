@@ -96,7 +96,7 @@ attribute_value:
       CS.Color ($3, $5, $7)
     }
   | Id {
-      try CS.Color (List.assoc $1 NamedColors.colors)
+      try CS.hex_color (List.assoc $1 NamedColors.colors)
       with Not_found -> CS.String $1
     }
   | HexColor      { CS.hex_color $1 }
