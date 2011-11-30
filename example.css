@@ -6,7 +6,7 @@ def colors {
     purple      : #72275a;
     yellow      : rgb (255, 236, 139);
     orange      : rgb (255, 127, 0);
-    red         : rgb (178, 34, 34);
+    red         : firebrick;
     teal        : #308876;
     light-blue  : #4189a4;
     blue        : #325f9f;
