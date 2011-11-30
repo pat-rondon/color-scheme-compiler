@@ -1,5 +1,18 @@
 def colors {
-  my-blue: #325f9f;
+    my-blue     : #325f9f;
+    dark-gray   : #4a4a4a;
+    medium-gray : #858585;
+    light-gray  : rgb (235, 235, 235);
+    green       : rgb (46, 139, 87);
+    purple      : #72275a;
+    yellow      : rgb (255, 236, 139);
+    orange      : rgb (255, 127, 0);
+    red         : firebrick;
+    teal        : #308876;
+    light-blue  : #4189a4;
+    blue        : #325f9f;
+    faint-blue  : #dfe8f1;
+    steel-blue  : #606b85;
 }
 
 body           { background : white;
