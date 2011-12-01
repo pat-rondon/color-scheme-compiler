@@ -6,16 +6,22 @@ let backend  = ref (module BEmacs: Backend.M)
 let filename = ref "-"
 let ostdout  = ref false
 
-let set_emacs () = backend := (module BEmacs: Backend.M)
-let set_vim   () = backend := (module BVim: Backend.M)
-let set_css   () = backend := (module BCSS: Backend.M)
+let backends = [
+    ("emacs", (module BEmacs: Backend.M))
+  ; ("vim",   (module BVim: Backend.M))
+  ; ("css",   (module BCSS: Backend.M))
+]
 
-let arg_spec = Arg.align
-  [ "-emacs"  , Arg.Unit set_emacs, " Use emacs backend"
-  ; "-vim"    , Arg.Unit set_vim,   " Use vim backend"
-  ; "-css"    , Arg.Unit set_css,   " Use css backend"
-  ; "-stdout" , Arg.Set ostdout,    " Output to stdout"
+let backend_spec =
+  List.map begin fun (name, m) ->
+    ("-" ^ name, Arg.Unit (fun _ -> backend := m), " Use " ^ name ^ " backend")
+  end backends
+
+let arg_spec = Arg.align begin
+  backend_spec @
+  [ "-stdout" , Arg.Set ostdout,    " Output to stdout"
   ]
+end
 
 let usage = String.concat "\n"
   [ "USAGE: csc [options] [spec.css]"
