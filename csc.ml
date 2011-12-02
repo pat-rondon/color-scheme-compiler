@@ -51,23 +51,22 @@ let parse f =
 
 let (|>) x f = f x
 
-let flip f x y = f y x
-
 let main () =
   Arg.parse arg_spec (fun f -> filename := f) usage;
   let module BE = (val !backend : Backend.M) in
+  let themename = FN.chop_suffix !filename ".css" in
   let ppf =
     if !ostdout then
       F.std_formatter
     else
-           !filename
-        |> flip FN.chop_suffix ".css"
+           themename
         |> BE.out_name
         |> open_out
         |> F.formatter_of_out_channel
   in
   !filename
     |> parse
+    |> (fun cs -> {cs with CS.name = themename})
     |> BE.print ppf
 
 let _ =
