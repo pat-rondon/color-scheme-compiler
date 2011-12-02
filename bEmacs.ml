@@ -97,5 +97,4 @@ let print ppf {CS.name = name; CS.faces = faces} =
     F.fprintf ppf "(provide 'color-theme-%s)@." name
 
 let out_name f =
-  "TODO-emacs-out_name"
-
+  "color-theme-" ^ f ^ ".el"
