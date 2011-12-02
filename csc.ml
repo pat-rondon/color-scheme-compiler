@@ -3,9 +3,9 @@ module FN = Filename
 module CS = ColorScheme
 
 (* options *)
-let backend  = ref (module BEmacs: Backend.M)
-let filename = ref "-"
-let ostdout  = ref false
+let backend     = ref (module BEmacs: Backend.M)
+let filename    = ref "-"
+let outfilename = ref None
 
 let backends = [
     ("emacs", (module BEmacs: Backend.M))
@@ -20,7 +20,7 @@ let backend_spec =
 
 let arg_spec = Arg.align begin
   backend_spec @
-  [ "-stdout" , Arg.Set ostdout,    " Output to stdout"
+  [ "-o" , Arg.String (fun s -> outfilename := Some s), " Set output file name"
   ]
 end
 
@@ -56,9 +56,14 @@ let main () =
   let module BE = (val !backend : Backend.M) in
   let themename = FN.chop_suffix !filename ".css" in
   let ppf =
-    if !ostdout then
-      F.std_formatter
-    else
+    match !outfilename with
+      | Some "-" ->
+        F.std_formatter
+      | Some f ->
+           f
+        |> open_out
+        |> F.formatter_of_out_channel
+      | None ->
            themename
         |> BE.out_name
         |> open_out
