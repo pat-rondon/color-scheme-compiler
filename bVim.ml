@@ -1,6 +1,5 @@
 module M  = Map
 module F  = Format
-module FN = Filename
 module CS = ColorScheme
 module SM = CS.StringMap
 
@@ -110,5 +109,5 @@ let print ppf {CS.name = name; CS.faces = faces} =
   print_faces faces ppf
 
 let out_name f =
-  (FN.chop_suffix f ".css") ^ ".vim"
+  f ^ ".vim"
 

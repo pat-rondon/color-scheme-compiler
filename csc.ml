@@ -1,4 +1,5 @@
 module F  = Format
+module FN = Filename
 module CS = ColorScheme
 
 (* options *)
@@ -50,6 +51,8 @@ let parse f =
 
 let (|>) x f = f x
 
+let flip f x y = f y x
+
 let main () =
   Arg.parse arg_spec (fun f -> filename := f) usage;
   let module BE = (val !backend : Backend.M) in
@@ -57,7 +60,8 @@ let main () =
     if !ostdout then
       F.std_formatter
     else
-      !filename
+           !filename
+        |> flip FN.chop_suffix ".css"
         |> BE.out_name
         |> open_out
         |> F.formatter_of_out_channel
