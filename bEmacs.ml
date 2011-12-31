@@ -1,7 +1,7 @@
 (* TODO:
    - Neutral faces get translated (variable -> font-lock-variable-name-face)
    - Emacs-understandable names get whitelisted (org-level-1 ok,
-     pat-vim-highlihgt not ok)
+     pat-vim-highlhigt not ok)
 *)
 
 module M  = Map
@@ -27,7 +27,9 @@ let print_map key_map pr ppf m =
 (******************************************************************************)
 
 let face_map =
-  [ ("selection",    "region")
+  [ ("body",         "default")
+  ; ("prompt",       "minibuffer-prompt")
+  ; ("selection",    "region")
   ; ("keyword",      "font-lock-keyword-face")
   ; ("comment",      "font-lock-comment-face")
   ; ("builtin",      "font-lock-builtin-face")
@@ -37,6 +39,16 @@ let face_map =
   ; ("string",       "font-lock-string-face")
   ; ("preprocessor", "font-lock-preprocessor-face")
   ; ("warning",      "font-lock-warning-face")
+  ; ("paren-match",  "show-paren-match")
+  ; ("paren-mismatch", "show-paren-mismatch")
+  ]
+
+let face_whitelist =
+  [ "mode-line"
+  ; "mode-line-inactive"
+  ; "tuareg-font-lock-governing-face"
+  ; "tuareg-font-lock-operator-face"
+  ; "cursor"
   ]
 
 let attribute_map =
@@ -46,11 +58,6 @@ let attribute_map =
 
 let unquoted_attributes =
   [ "weight"
-  ]
-
-let body_face_attribute_map =
-  [ ("color",      "foreground-color")
-  ; ("background", "background-color")
   ]
 
 (******************************************************************************)
@@ -73,28 +80,19 @@ let print_faces =
   print_map
     face_map
     begin fun ppf k v ->
-      F.fprintf ppf "(%s ((t (@[%a@]))))@\n" k print_face_attributes v
+      F.fprintf ppf "'(%s ((t (@[%a@]))))@\n" k print_face_attributes v
     end
 
-let print_body_face_option ppf = function
-  | None      -> ()
-  | Some face ->
-    SM.iter begin fun attr v ->
-      F.fprintf ppf "(%s . %a)@\n"
-        (find_local_name body_face_attribute_map attr)
-        (print_attribute attr) v
-    end face
+let filter_faces =
+  SM.filter (fun f _ -> List.mem_assoc f face_map || List.mem f face_whitelist)
 
 let print ppf {CS.name = name; CS.faces = faces} =
-  let body_opt, faces = CS.extract_face faces "body" in
-    F.fprintf ppf "(defun color-theme-%s ()@." name;
-    F.fprintf ppf "  (interactive)@.";
-    F.fprintf ppf "  (color-theme-install@.";
-    F.fprintf ppf "    `(color-theme-%s@." name;
-    F.fprintf ppf "      (@[%a@])@." print_body_face_option body_opt;
-    F.fprintf ppf "      @[%a@]@." print_faces faces;
-    F.fprintf ppf "  )))@.";
-    F.fprintf ppf "(provide 'color-theme-%s)@." name
+  F.fprintf ppf "(deftheme %s \"\")@." name;
+  F.fprintf ppf "(custom-theme-set-faces@.";
+  F.fprintf ppf "  '%s@." name;
+  F.fprintf ppf "  @[%a@]@." print_faces (filter_faces faces);
+  F.fprintf ppf "  )@.";
+  F.fprintf ppf "(provide-theme '%s)@." name
 
 let out_name f =
-  "color-theme-" ^ f ^ ".el"
+  f ^ "-theme.el"
