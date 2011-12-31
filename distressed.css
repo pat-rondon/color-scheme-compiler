@@ -1,0 +1,74 @@
+def colors {
+    dark-gray   : #4a4a4a;
+    medium-gray : #858585;
+    light-gray  : rgb (235, 235, 235);
+    green       : rgb (46, 139, 87);
+    purple      : #72275a;
+    yellow      : rgb (255, 236, 139);
+    orange      : rgb (255, 127, 0);
+    red         : firebrick;
+    teal        : #308876;
+    light-blue  : #4189a4;
+    blue        : #325f9f;
+    faint-blue  : #dfe8f1;
+    steel-blue  : #606b85;
+}
+
+body           { background : white;
+                 foreground : colors.dark-gray;
+               }
+
+cursor         { background: colors.medium-gray; }
+
+prompt         { color       : colors.blue;
+                 font-weight : bold; }
+
+comment        { color: colors.medium-gray; }
+builtin        { color: colors.blue; }
+keyword        { color: colors.blue; }
+variable       { color: colors.light-blue; }
+function       { color: colors.light-blue; }
+constant       { color: green; }
+string         { color: colors.steel-blue; }
+statement      { color: yellow; }
+struct         { color: colors.faint-blue; }
+type           { color: colors.teal; }
+preprocessor   { color: purple; }
+error          { color: red;
+                 font-weight: bold; }
+warning        { color       : orange;
+                 font-weight : bold;
+               }
+selection      { background : colors.faint-blue; }
+paren-match    { background : yellow; }
+paren-mismatch { color      : white;
+                 background : purple;
+               }
+todo           { color: red; }
+
+
+// Emacs-specific colors
+
+mode-line          { color      : white;
+                     background : colors.dark-gray; }
+mode-line-inactive { color      : colors.medium-gray;
+                     background : colors.light-gray; }
+
+// Emacs Tuareg mode colors
+
+tuareg-font-lock-governing-face { color: colors.blue; }
+tuareg-font-lock-operator-face  { color: colors.blue; }
+
+caml-types-expr-face { background: yellow; }
+
+
+// vim-specific colors
+bool      { color: blue; }
+char      { color: blue; }
+int       { color: colors.teal; }
+float     { color: colors.teal; }
+branch    { color: yellow; }
+loop      { color: yellow; }
+case      { color: yellow; }
+exception { color: yellow; }
+
