@@ -49,6 +49,9 @@ let face_whitelist =
   ; "tuareg-font-lock-governing-face"
   ; "tuareg-font-lock-operator-face"
   ; "cursor"
+  ; "match"
+  ; "compilation-info"
+  ; "compilation-error"
   ]
 
 let attribute_map =
