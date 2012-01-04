@@ -24,12 +24,20 @@ prompt         { color       : colors.blue;
                  font-weight : bold; }
 
 comment        { color: colors.medium-gray; }
-builtin        { color: colors.blue; }
-keyword        { color: colors.blue; }
-variable       { color: colors.light-blue; }
+builtin, keyword {
+    color: colors.blue;
+}
+
+variable, function {
+    color: colors.light-blue;
+}
+
 function       { color: colors.light-blue; }
-constant       { color: colors.steel-blue; }
-string         { color: colors.steel-blue; }
+
+constant, string {
+    color: colors.steel-blue;
+}
+
 statement      { color: colors.yellow; }
 struct         { color: colors.faint-blue; }
 type           { color: colors.teal; }

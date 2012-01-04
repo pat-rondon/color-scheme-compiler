@@ -9,7 +9,7 @@
 
  let defs = ref SM.empty
 
- let add_def name face =
+ let add_def face name =
    defs := SM.add name face !defs
 
  let find_def face attr =
@@ -47,10 +47,10 @@ color_scheme:
 defs:
              { SM.empty }
   | defs def {
-    let kind, name, attrs = $2 in
+    let kind, names, attrs = $2 in
       match kind with
-        | Definition -> add_def name attrs; $1
-        | Face       -> SM.add name attrs $1
+        | Definition -> List.iter (add_def attrs) names; $1
+        | Face       -> List.fold_left (fun dm n -> SM.add n attrs dm) $1 names
   }
 ;
 
@@ -60,7 +60,12 @@ def:
 ;
 
 def_aux:
-  Id LEFT_CURLY face_attributes RIGHT_CURLY { ($1, $3) }
+  ids LEFT_CURLY face_attributes RIGHT_CURLY { ($1, $3) }
+;
+
+ids:
+    Id           { [$1] }
+  | Id COMMA ids { $1 :: $3 }
 ;
 
 face_attributes:
