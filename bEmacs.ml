@@ -2,6 +2,7 @@
    - Neutral faces get translated (variable -> font-lock-variable-name-face)
    - Emacs-understandable names get whitelisted (org-level-1 ok,
      pat-vim-highlhigt not ok)
+   - Whitelist face attributes
 *)
 
 module M  = Map
@@ -39,6 +40,9 @@ let face_map =
   ; ("string",         "font-lock-string-face")
   ; ("preprocessor",   "font-lock-preprocessor-face")
   ; ("warning",        "font-lock-warning-face")
+  ; ("match",          "isearch")
+  ; ("more-matches",   "lazy-highlight")
+  ; ("mismatch",       "isearch-fail")
   ; ("paren-match",    "show-paren-match")
   ; ("paren-mismatch", "show-paren-mismatch")
   ]
@@ -52,6 +56,16 @@ let face_whitelist =
   ; "match"
   ; "compilation-info"
   ; "compilation-error"
+  ; "info-xref"
+  ; "info-xref-visited"
+  ; "magit-diff-add"
+  ; "magit-diff-del"
+  ; "org-level-1"
+  ; "org-level-2"
+  ; "org-todo"
+  ; "org-done"
+  ; "eshell-prompt"
+  ; "eshell-ls-backup"
   ]
 
 let attribute_map =
