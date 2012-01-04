@@ -1,7 +1,4 @@
 (* TODO:
-   - Neutral faces get translated (variable -> font-lock-variable-name-face)
-   - Emacs-understandable names get whitelisted (org-level-1 ok,
-     pat-vim-highlhigt not ok)
    - Whitelist face attributes
 *)
 
