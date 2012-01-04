@@ -3,7 +3,7 @@ def colors {
     medium-gray : #858585;
     light-gray  : rgb (235, 235, 235);
     green       : rgb (46, 139, 87);
-    purple      : #72275a;
+    purple      : #7f007f;
     yellow      : rgb (255, 236, 139);
     orange      : rgb (255, 127, 0);
     red         : firebrick;
@@ -30,21 +30,25 @@ variable       { color: colors.light-blue; }
 function       { color: colors.light-blue; }
 constant       { color: green; }
 string         { color: colors.steel-blue; }
-statement      { color: yellow; }
+statement      { color: colors.yellow; }
 struct         { color: colors.faint-blue; }
 type           { color: colors.teal; }
-preprocessor   { color: purple; }
-error          { color: red;
+preprocessor   { color: colors.purple; }
+error          { color: colors.red;
                  font-weight: bold; }
-warning        { color       : orange;
+warning        { color       : colors.orange;
                  font-weight : bold;
                }
 selection      { background : colors.faint-blue; }
-paren-match    { background : yellow; }
-paren-mismatch { color      : white;
-                 background : purple;
-               }
-todo           { color: red; }
+match          { background : colors.yellow;
+                 foreground : colors.blue; }
+mismatch       { background : colors.purple;
+                 color      : white; }
+more-matches   { background : colors.faint-blue; }
+paren-match    { background : colors.yellow; }
+paren-mismatch { background : colors.purple;
+                 color      : white; }
+todo           { color: colors.red; }
 
 
 // Emacs-specific colors
@@ -54,12 +58,34 @@ mode-line          { color      : white;
 mode-line-inactive { color      : colors.medium-gray;
                      background : colors.light-gray; }
 
+compilation-info   { color       : colors.green;
+                     font-weight : bold; }
+compilation-error  { color       : colors.orange;
+                     font-weight : bold; }
+
+info-xref          { color : colors.blue; }
+info-xref-visited  { color : colors.purple; }
+
+magit-diff-add     { color       : colors.green;
+                     font-weight : bold; }
+magit-diff-del     { color       : colors.purple;
+                     font-weight : bold; }
+
+org-level-1        { color       : colors.blue;
+                     font-weight : bold; }
+org-level-2        { color       : colors.purple;
+                     font-weight : bold; }
+org-todo           { color       : colors.red;
+                     font-weight : bold; }
+org-done           { color       : colors.green;
+                     font-weight : bold; }
+
 // Emacs Tuareg mode colors
 
 tuareg-font-lock-governing-face { color: colors.blue; }
 tuareg-font-lock-operator-face  { color: colors.blue; }
 
-caml-types-expr-face { background: yellow; }
+caml-types-expr-face { background: colors.yellow; }
 
 
 // vim-specific colors
