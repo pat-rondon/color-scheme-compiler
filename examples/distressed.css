@@ -28,7 +28,7 @@ builtin        { color: colors.blue; }
 keyword        { color: colors.blue; }
 variable       { color: colors.light-blue; }
 function       { color: colors.light-blue; }
-constant       { color: green; }
+constant       { color: colors.steel-blue; }
 string         { color: colors.steel-blue; }
 statement      { color: colors.yellow; }
 struct         { color: colors.faint-blue; }
@@ -93,8 +93,8 @@ bool      { color: blue; }
 char      { color: blue; }
 int       { color: colors.teal; }
 float     { color: colors.teal; }
-branch    { color: yellow; }
-loop      { color: yellow; }
+branch    { color: colors.blue; }
+loop      { color: colors.blue; }
 case      { color: yellow; }
 exception { color: yellow; }
 
