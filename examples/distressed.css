@@ -25,7 +25,8 @@ prompt         { color       : colors.blue;
 
 comment        { color: colors.medium-gray; }
 builtin, keyword {
-    color: colors.blue;
+    color       : colors.blue;
+    font-weight : bold;
 }
 
 variable, function {
@@ -38,7 +39,9 @@ constant, string {
     color: colors.steel-blue;
 }
 
-statement      { color: colors.yellow; }
+statement      { color: colors.blue;
+                 font-weight: normal;
+               }
 struct         { color: colors.faint-blue; }
 type           { color: colors.teal; }
 preprocessor   { color: colors.purple; }
@@ -95,14 +98,23 @@ tuareg-font-lock-operator-face  { color: colors.blue; }
 
 caml-types-expr-face { background: colors.yellow; }
 
+// Eshell
+
+eshell-prompt {
+  color       : colors.blue;
+  font-weight : bold;
+}
+
+eshell-ls-backup {
+ color: colors.medium-gray;
+}
 
 // vim-specific colors
-bool      { color: blue; }
-char      { color: blue; }
-int       { color: colors.teal; }
-float     { color: colors.teal; }
-branch    { color: colors.blue; }
-loop      { color: colors.blue; }
-case      { color: yellow; }
-exception { color: yellow; }
-
+bool      { color: colors.steel-blue; }
+char      { color: colors.steel-blue; }
+int       { color: colors.steel-blue; }
+float     { color: colors.steel-blue; }
+branch    { color: colors.blue; font-weight: bold; }
+loop      { color: colors.blue; font-weight: bold; }
+case      { color: colors.blue; font-weight: bold; }
+exception { color: colors.blue; }
