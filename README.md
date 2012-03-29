@@ -21,7 +21,9 @@ make PREFIX=~/bin/ install
 Usage
 -----
 
-csc themeFile.css
+```
+csc [options] themeFile.css
+```
 
 The following options control which output backend is used. The Emacs
 backend is the default.
