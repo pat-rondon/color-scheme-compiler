@@ -11,13 +11,15 @@ module F  = Format
 let (|>) x f = f x
 
 (* pmr: factor this out *)
-let find_local_name name_map name =
-  try List.assoc name name_map with Not_found -> name
+let find_local_names name_map name =
+  try List.assoc name name_map with Not_found -> [name]
 
 (* pmr: factor this out *)
 let print_map key_map pr ppf m =
   SM.iter begin fun k v ->
-    pr ppf (find_local_name key_map k) v
+    List.iter begin fun lk ->
+      pr ppf lk v
+    end (find_local_names key_map k)
   end m
 
 (******************************************************************************)
@@ -25,23 +27,23 @@ let print_map key_map pr ppf m =
 (******************************************************************************)
 
 let face_map =
-  [ ("body",           "default")
-  ; ("prompt",         "minibuffer-prompt")
-  ; ("selection",      "region")
-  ; ("keyword",        "font-lock-keyword-face")
-  ; ("comment",        "font-lock-comment-face")
-  ; ("builtin",        "font-lock-builtin-face")
-  ; ("variable",       "font-lock-variable-name-face")
-  ; ("function",       "font-lock-function-name-face")
-  ; ("type",           "font-lock-type-face")
-  ; ("string",         "font-lock-string-face")
-  ; ("preprocessor",   "font-lock-preprocessor-face")
-  ; ("warning",        "font-lock-warning-face")
-  ; ("match",          "isearch")
-  ; ("more-matches",   "lazy-highlight")
-  ; ("mismatch",       "isearch-fail")
-  ; ("paren-match",    "show-paren-match")
-  ; ("paren-mismatch", "show-paren-mismatch")
+  [ ("body",           ["default"])
+  ; ("prompt",         ["minibuffer-prompt"])
+  ; ("selection",      ["region"])
+  ; ("keyword",        ["font-lock-keyword-face"])
+  ; ("comment",        ["font-lock-comment-face"])
+  ; ("builtin",        ["font-lock-builtin-face"])
+  ; ("variable",       ["font-lock-variable-name-face"])
+  ; ("function",       ["font-lock-function-name-face"])
+  ; ("type",           ["font-lock-type-face"])
+  ; ("string",         ["font-lock-string-face"])
+  ; ("preprocessor",   ["font-lock-preprocessor-face"])
+  ; ("warning",        ["font-lock-warning-face"])
+  ; ("match",          ["match"; "isearch"])
+  ; ("more-matches",   ["lazy-highlight"])
+  ; ("mismatch",       ["isearch-fail"])
+  ; ("paren-match",    ["show-paren-match"])
+  ; ("paren-mismatch", ["show-paren-mismatch"])
   ]
 
 let face_whitelist =
@@ -50,7 +52,6 @@ let face_whitelist =
   ; "tuareg-font-lock-governing-face"
   ; "tuareg-font-lock-operator-face"
   ; "cursor"
-  ; "match"
   ; "compilation-info"
   ; "compilation-error"
   ; "info-xref"
@@ -66,8 +67,8 @@ let face_whitelist =
   ]
 
 let attribute_map =
-  [ ("color",       "foreground")
-  ; ("font-weight", "weight")
+  [ ("color",       ["foreground"])
+  ; ("font-weight", ["weight"])
   ]
 
 let unquoted_attributes =
