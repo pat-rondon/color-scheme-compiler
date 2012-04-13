@@ -91,6 +91,34 @@ org-todo           { color       : colors.red;
 org-done           { color       : colors.green;
                      font-weight : bold; }
 
+// Emacs LaTeX mode colors
+
+font-latex-bold-face { color       : black;
+                       font-weight : bold; }
+
+font-latex-sectioning-1-face {
+    color       : colors.blue;
+    font-weight : bold;
+}
+
+font-latex-sectioning-2-face {
+    color       : colors.purple;
+    font-weight : bold;
+}
+
+font-latex-sectioning-3-face {
+    color       : colors.light-blue;
+    font-weight : bold;
+}
+
+font-latex-string-face {
+    color : colors.steel-blue;
+}
+
+font-latex-math-face, font-latex-sedate-face {
+    color : colors.steel-blue;
+}
+
 // Emacs Tuareg mode colors
 
 tuareg-font-lock-governing-face { color: colors.blue; }
