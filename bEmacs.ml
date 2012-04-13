@@ -64,6 +64,17 @@ let face_whitelist =
   ; "org-done"
   ; "eshell-prompt"
   ; "eshell-ls-backup"
+  ; "font-latex-math-face"
+  ; "font-latex-string-face"
+  ; "font-latex-sedate-face"
+  ; "font-latex-bold-face"
+  ; "font-latex-italic-face"
+  ; "font-latex-sectioning-0-face"
+  ; "font-latex-sectioning-1-face"
+  ; "font-latex-sectioning-2-face"
+  ; "font-latex-sectioning-3-face"
+  ; "font-latex-sectioning-4-face"
+  ; "font-latex-sectioning-5-face"
   ]
 
 let attribute_map =
