@@ -2,6 +2,8 @@ module F  = Format
 module FN = Filename
 module CS = ColorScheme
 
+open Util.Operators
+
 (* options *)
 let backend     = ref (module BEmacs: Backend.M)
 let filename    = ref "-"
@@ -48,8 +50,6 @@ let parse f =
      (lexbuf.Lexing.lex_curr_p.Lexing.pos_cnum -
       lexbuf.Lexing.lex_curr_p.Lexing.pos_bol);
     exit 1
-
-let (|>) x f = f x
 
 let main () =
   Arg.parse arg_spec (fun f -> filename := f) usage;

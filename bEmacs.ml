@@ -7,8 +7,7 @@ module CS = ColorScheme
 module SM = CS.StringMap
 module F  = Format
 
-(* pmr: factor this out *)
-let (|>) x f = f x
+open Util.Operators
 
 (* pmr: factor this out *)
 let find_local_names name_map name =
