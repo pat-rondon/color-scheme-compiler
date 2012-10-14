@@ -5,14 +5,15 @@ module CS = ColorScheme
 open Util.Operators
 
 (* options *)
-let backend     = ref (module BEmacs: Backend.M)
+let backend     = ref (module BEmacs.Builtin: Backend.M)
 let filename    = ref "-"
 let outfilename = ref None
 
 let backends = [
-    ("emacs", (module BEmacs: Backend.M))
-  ; ("vim",   (module BVim: Backend.M))
-  ; ("css",   (module BCSS: Backend.M))
+    ("emacs"          , (module BEmacs.Builtin: Backend.M))
+  ; ("color-theme-el" , (module BEmacs.ColorThemeEl: Backend.M))
+  ; ("vim"            , (module BVim: Backend.M))
+  ; ("css"            , (module BCSS: Backend.M))
 ]
 
 let backend_spec =
@@ -54,7 +55,7 @@ let parse f =
 let main () =
   Arg.parse arg_spec (fun f -> filename := f) usage;
   let module BE = (val !backend : Backend.M) in
-  let themename = FN.chop_suffix !filename ".css" in
+  let themename = FN.chop_suffix !filename ".css" |> FN.basename in
   let ppf =
     match !outfilename with
       | Some "-" ->
@@ -66,10 +67,11 @@ let main () =
       | None ->
            themename
         |> BE.out_name
+        |> FN.concat (FN.dirname !filename)
         |> open_out
         |> F.formatter_of_out_channel
   in
-  !filename
+       !filename
     |> parse
     |> (fun cs -> {cs with CS.name = themename})
     |> BE.print ppf

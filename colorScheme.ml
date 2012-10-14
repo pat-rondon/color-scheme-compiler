@@ -1,6 +1,4 @@
-module StringMap = Map.Make (String)
-
-module SM = StringMap
+module SM = Util.StringMap
 module RE = Str
 module P  = Printf
 

@@ -1,6 +1,6 @@
 module M  = Map
 module CS = ColorScheme
-module SM = CS.StringMap
+module SM = Util.StringMap
 module F  = Format
 
 let print_face ppf = function

@@ -1,7 +1,7 @@
 %{
 
  module CS = ColorScheme
- module SM = CS.StringMap
+ module SM = Util.StringMap
 
  type def_kind =
    | Face

@@ -1,7 +1,7 @@
 module M  = Map
 module F  = Format
 module CS = ColorScheme
-module SM = CS.StringMap
+module SM = Util.StringMap
 
 (* translation to vim faces  *)
 (* see help syntax for names *)

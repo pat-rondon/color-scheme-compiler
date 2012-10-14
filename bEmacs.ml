@@ -4,28 +4,15 @@
 
 module M  = Map
 module CS = ColorScheme
-module SM = CS.StringMap
 module F  = Format
 
 open Util.Operators
-
-(* pmr: factor this out *)
-let find_local_names name_map name =
-  try List.assoc name name_map with Not_found -> [name]
-
-(* pmr: factor this out *)
-let print_map key_map pr ppf m =
-  SM.iter begin fun k v ->
-    List.iter begin fun lk ->
-      pr ppf lk v
-    end (find_local_names key_map k)
-  end m
 
 (******************************************************************************)
 (********************** Color scheme names to Emacs names *********************)
 (******************************************************************************)
 
-let face_map =
+let css_face_to_emacs_face =
   [ ("body",           ["default"])
   ; ("prompt",         ["minibuffer-prompt"])
   ; ("selection",      ["region"])
@@ -76,7 +63,7 @@ let face_whitelist =
   ; "font-latex-sectioning-5-face"
   ]
 
-let attribute_map =
+let css_attribute_to_emacs_attribute =
   [ ("color",       ["foreground"])
   ; ("font-weight", ["weight"])
   ]
@@ -90,34 +77,81 @@ let unquoted_attributes =
 (******************************************************************************)
 
 let print_attribute attr ppf = function
-  | CS.Color (r, g, b) -> F.fprintf ppf "\"#%02x%02x%02x\"" r g b (* pmr: factor out hex color printing *)
+  | CS.Color (r, g, b) -> Util.print_hex_color ppf (r, g, b)
   | CS.String s        ->
     if List.mem attr unquoted_attributes then
       F.fprintf ppf "%s" s
     else F.fprintf ppf "\"%s\"" s
 
 let print_face_attributes =
-  print_map
-    attribute_map
+  Util.print_map
+    css_attribute_to_emacs_attribute
     (fun ppf k v -> F.fprintf ppf ":%s %a@;" k (print_attribute k) v)
 
-let print_faces =
-  print_map
-    face_map
-    begin fun ppf k v ->
-      F.fprintf ppf "'(%s ((t (@[%a@]))))@\n" k print_face_attributes v
+let print_face_sexpr ppf (face, attributes) =
+  F.fprintf ppf "(%s ((t (@[%a@]))))@." face print_face_attributes attributes
+
+let print_faces ppf (prefix, faces) =
+  Util.print_map
+    css_face_to_emacs_face
+    begin fun ppf face attributes ->
+      F.fprintf ppf "%s%a" prefix print_face_sexpr (face, attributes)
+    end
+    ppf
+    faces
+
+(* Produces themes for the built-in theming engine present in Emacs 24
+   and up *)
+module Builtin = struct
+  let filter_faces =
+    Util.StringMap.filter begin fun f _ ->
+      List.mem_assoc f css_face_to_emacs_face || List.mem f face_whitelist
     end
 
-let filter_faces =
-  SM.filter (fun f _ -> List.mem_assoc f face_map || List.mem f face_whitelist)
+  let print ppf {CS.name = name; CS.faces = faces} =
+    F.fprintf ppf "(deftheme %s \"\")@." name;
+    F.fprintf ppf "(custom-theme-set-faces@.";
+    F.fprintf ppf "  '%s@." name;
+    F.fprintf ppf "  @[%a@]@." print_faces ("'", filter_faces faces);
+    F.fprintf ppf "  )@.";
+    F.fprintf ppf "(provide-theme '%s)@." name
 
-let print ppf {CS.name = name; CS.faces = faces} =
-  F.fprintf ppf "(deftheme %s \"\")@." name;
-  F.fprintf ppf "(custom-theme-set-faces@.";
-  F.fprintf ppf "  '%s@." name;
-  F.fprintf ppf "  @[%a@]@." print_faces (filter_faces faces);
-  F.fprintf ppf "  )@.";
-  F.fprintf ppf "(provide-theme '%s)@." name
+  let out_name f =
+    f ^ "-theme.el"
+end
 
-let out_name f =
-  f ^ "-theme.el"
+(* Produces themes for color-theme.el *)
+module ColorThemeEl = struct
+  (* The base UI faces are treated specially specially in old-style
+     color themes. *)
+  let filter_normal_faces =
+    Util.StringMap.filter begin fun f _ ->
+      f != "body" &&
+        (List.mem_assoc f css_face_to_emacs_face || List.mem f face_whitelist)
+    end
+
+  let body_face_css_attribute_to_emacs_attribute =
+    [ ("foreground", ["foreground-color"])
+    ; ("background", ["background-color"])
+    ]
+
+  let print_body_face_attributes =
+    Util.print_map
+      body_face_css_attribute_to_emacs_attribute
+      (fun ppf k v -> F.fprintf ppf "(%s . %a)@." k (print_attribute k) v)
+
+  let print ppf {CS.name = name; CS.faces = faces} =
+    F.fprintf ppf "(defun color-theme-%s ()@." name;
+    F.fprintf ppf "  (interactive)@.";
+    F.fprintf ppf "  (color-theme-install@.";
+    F.fprintf ppf "    '(%s@." name;
+    if CS.SM.mem "body" faces then
+      F.fprintf ppf "      (@[%a@])@."
+        print_body_face_attributes (CS.SM.find "body" faces);
+    F.fprintf ppf "      @[%a@]@." print_faces ("", filter_normal_faces faces);
+    F.fprintf ppf ")))@.";
+    F.fprintf ppf "(provide 'color-theme-%s)" name
+
+  let out_name f =
+    "color-theme-" ^ f ^ ".el"
+end
