@@ -77,7 +77,8 @@ let unquoted_attributes =
 (******************************************************************************)
 
 let print_attribute attr ppf = function
-  | CS.Color (r, g, b) -> Util.print_hex_color ppf (r, g, b)
+  | CS.Color (r, g, b) ->
+    F.fprintf ppf "\"%s\"" (Util.Colors.rgb_to_hex_color_string (r, g, b))
   | CS.String s        ->
     if List.mem attr unquoted_attributes then
       F.fprintf ppf "%s" s

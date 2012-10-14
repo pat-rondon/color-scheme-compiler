@@ -82,10 +82,16 @@ attribute_value:
       CS.Color ($3, $5, $7)
     }
   | Id {
-      try CS.hex_color (List.assoc $1 NamedColors.colors)
+      try
+        let r, g, b =
+          Util.Colors.rgb_of_hex_color_string (List.assoc $1 NamedColors.colors)
+        in CS.Color (r, g, b)
       with Not_found -> CS.String $1
     }
-  | HexColor      { CS.hex_color $1 }
+  | HexColor {
+      let r, g, b = Util.Colors.rgb_of_hex_color_string $1 in
+        CS.Color (r, g, b)
+    }
   | String        { CS.String $1 }
   | Id PROJECT Id { find_def $1 $3 }
 ;
