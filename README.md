@@ -29,6 +29,8 @@ The following options control which output backend is used. The Emacs
 backend is the default.
 
 * -emacs: Output an Emacs 24 color theme to themeFile-theme.el.
+* -color-theme-el: Output a color-theme.el color theme to
+  color-theme-themeFile.el.
 * -vim: Output a Vim color theme to themeFile.vim.
 * -css: Output a CSS file to themeFile.css.
 
