@@ -33,8 +33,6 @@ variable, function {
     color: colors.light-blue;
 }
 
-function       { color: colors.light-blue; }
-
 constant, string {
     color: colors.steel-blue;
 }
