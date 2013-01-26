@@ -1,0 +1,118 @@
+// General scheme:
+//
+//   Normal text is dark gray, including things that are
+//   normally syntax-highlighted. Highlighting is kept to
+//   a minimum - the only place where highlighting is used
+//   is to distinguish entities which might become unterminated
+//   (strings, comments, and constants) from normal text.
+//
+//   Kinda (blue, green, red) are used for neutral, positive information
+//   (e.g., important success messages, as from successful compiles),
+//   and negative information (e.g., important failure messages like
+//   compilation failures).
+
+//   Yellow is used to highlight positive matches (parens, searches, etc.).
+//   Purple is used to highlight mismatches (mismatched parens, failing
+//   searches, etc.). Faint gray is used for neutral matches (the
+//   selection, matches other than the currently-highlighted one,
+//   the current line).
+
+def colors {
+    dark-gray   : #4a4a4a;
+    medium-gray : #858585;
+    light-gray  : rgb (235, 235, 235);
+    faint-gray  : #eaeaea;
+    yellow      : rgb (255, 236, 139);
+    purple      : #7f007f;
+    kinda-red   : #b56565;
+    kinda-blue  : #6565b5;
+    kinda-green : #65b565;
+}
+
+body {
+    background : white;
+    foreground : colors.dark-gray;
+}
+
+prompt, eshell-prompt {
+    color       : colors.dark-gray;
+    font-weight : bold; 
+}
+
+cursor {
+    color : colors.light-gray;
+}
+
+highlight {
+    background : colors.faint-gray;
+}
+
+builtin, keyword, type, struct, preprocessor,
+variable, function, statement, constant {
+    font-weight : normal;
+    color : colors.dark-gray;
+}
+
+string, comment, constant {
+    color : colors.kinda-blue;
+}
+
+error {
+    color : colors.kinda-red;
+}
+
+selection {
+    background : colors.faint-gray;
+}
+
+match {
+    background : colors.yellow;
+    foreground : colors.dark-gray; 
+    font-weight: bold;
+}
+
+more-matches {
+    background : colors.faint-gray; 
+    font-weight: bold;
+}
+
+paren-match {
+    background : colors.yellow;
+}
+
+paren-mismatch, mismatch {
+    background : colors.purple;
+    foreground : white;
+}
+
+todo {
+    color : colors.kinda-red;
+}
+
+// Emacs-specific colors
+
+mode-line {
+    color      : white;
+    background : colors.dark-gray; 
+}
+
+mode-line-inactive { 
+    color      : colors.medium-gray;
+    background : colors.light-gray; 
+}
+
+compilation-info {
+    color       : colors.kinda-green;
+}
+
+compilation-error {
+    color       : colors.kinda-red;
+}
+
+org-todo {
+    color : colors.kinda-red;
+}
+
+org-done {
+    color : colors.kinda-green;
+}
