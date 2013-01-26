@@ -18,6 +18,8 @@ let css_face_to_emacs_face =
   ; ("selection",      ["region"])
   ; ("keyword",        ["font-lock-keyword-face"])
   ; ("comment",        ["font-lock-comment-face"])
+  ; ("constant",       ["font-lock-constant-face"])
+  ; ("line-highlight", ["hl-line"])
   ; ("builtin",        ["font-lock-builtin-face"])
   ; ("variable",       ["font-lock-variable-name-face"])
   ; ("function",       ["font-lock-function-name-face"])
@@ -40,6 +42,7 @@ let face_whitelist =
   ; "cursor"
   ; "compilation-info"
   ; "compilation-error"
+  ; "highlight"
   ; "info-xref"
   ; "info-xref-visited"
   ; "magit-diff-add"
