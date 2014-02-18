@@ -48,13 +48,15 @@ highlight {
 }
 
 builtin, keyword, type, struct, preprocessor,
-variable, function, statement, constant {
+variable, function, statement, constant,
+tuareg-font-lock-governing-face, tuareg-font-lock-operator-face {
     font-weight : normal;
     color       : colors.dark-gray;
 }
 
 string, comment {
-    color : colors.kinda-blue;
+    font-weight : normal;
+    color       : colors.medium-gray;
 }
 
 error {
@@ -102,7 +104,7 @@ mode-line-inactive {
 }
 
 compilation-info {
-    color : colors.kinda-green;
+    color : colors.kinda-blue;
 }
 
 compilation-error {
