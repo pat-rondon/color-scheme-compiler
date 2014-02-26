@@ -1,10 +1,12 @@
 // General scheme:
 //
-//   Normal text is dark gray, including things that are
-//   normally syntax-highlighted. Highlighting is kept to
-//   a minimum - the only place where highlighting is used
-//   is to distinguish entities which might become unterminated
-//   (e.g., strings and comments) from normal text.
+//   Normal text is black, including things that are normally
+//   syntax-highlighted. Keywords are semi-bold but are a lighter
+//   color to offset their added weight.
+//   Color highlighting is kept to a minimum - the
+//   only place where highlighting is used is to distinguish entities
+//   which might become unterminated (e.g., strings and comments) from
+//   normal text (in red).
 //
 //   Kinda (blue, green, red) are used for neutral, positive information
 //   (e.g., important success messages, as from successful compiles),
@@ -24,39 +26,45 @@ def colors {
     faint-gray  : #eaeaea;
     yellow      : rgb (255, 236, 139);
     purple      : #7f007f;
-    kinda-red   : #b56565;
-    kinda-blue  : #6565b5;
-    kinda-green : #65b565;
+    kinda-red   : #4a0000;
+    kinda-blue  : #00004a;
+    kinda-green : #004a00;
+    red         : #4a0000;
 }
 
 body {
     background : white;
-    foreground : colors.dark-gray;
+    foreground : black;
 }
 
 prompt, eshell-prompt {
     color       : colors.dark-gray;
-    font-weight : bold; 
+    font-weight : semi-bold;
 }
 
 cursor {
-    color : colors.light-gray;
+    color : black;
 }
 
 highlight {
     background : colors.faint-gray;
 }
 
-builtin, keyword, type, struct, preprocessor,
-variable, function, statement, constant,
-tuareg-font-lock-governing-face, tuareg-font-lock-operator-face {
-    font-weight : normal;
+builtin, keyword, tuareg-font-lock-governing-face {
+    font-weight : semi-bold;
     color       : colors.dark-gray;
 }
 
-string, comment {
+type, struct, preprocessor,
+variable, function, statement, constant,
+tuareg-font-lock-operator-face {
     font-weight : normal;
-    color       : colors.medium-gray;
+    color       : black;
+}
+
+string, comment, doc {
+    font-weight : normal;
+    color       : colors.kinda-red;
 }
 
 error {
