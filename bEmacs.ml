@@ -18,6 +18,7 @@ let css_face_to_emacs_face =
   ; ("selection",      ["region"])
   ; ("keyword",        ["font-lock-keyword-face"])
   ; ("comment",        ["font-lock-comment-face"])
+  ; ("doc",            ["font-lock-doc-face"])
   ; ("constant",       ["font-lock-constant-face"])
   ; ("line-highlight", ["hl-line"])
   ; ("builtin",        ["font-lock-builtin-face"])
