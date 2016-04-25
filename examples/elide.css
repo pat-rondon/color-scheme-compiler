@@ -1,0 +1,126 @@
+def colors {
+    almost-white : #fafafa;
+    faint-gray   : #eaeaea;
+    light-gray   : #575a6e;
+    gray         : #4a4a52;
+    dark-gray    : #4a4a4a;
+    purple       : #695980;
+    blue         : #617aad;
+    dark-blue    : #2c334d;
+    yellow       : #fcfac0;
+    red          : #ab3333;
+    green        : #30967e;
+}
+
+body {
+    background : colors.almost-white;
+    foreground : colors.gray;
+}
+
+prompt, eshell-prompt {
+    color       : colors.gray;
+    font-weight : semi-bold;
+}
+
+cursor {
+    color : colors.gray;
+}
+
+highlight {
+    background : colors.faint-gray;
+}
+
+builtin, keyword, tuareg-font-lock-governing-face {
+    font-weight : normal;
+    color       : colors.blue;
+}
+
+type, struct, preprocessor,
+variable, function, statement, constant,
+tuareg-font-lock-operator-face,
+racket-keyword-argument-face,
+racket-selfeval-face {
+    font-weight : normal;
+    color       : colors.gray;
+}
+
+string {
+    color : colors.purple;
+}
+
+comment, doc {
+    font-weight : normal;
+    color       : colors.light-gray;
+}
+
+error {
+    color : colors.red;
+}
+
+selection {
+    background : colors.faint-gray;
+}
+
+match {
+    background  : colors.yellow;
+    foreground  : colors.dark-gray;
+    font-weight : bold;
+}
+
+more-matches {
+    background  : colors.faint-gray;
+    font-weight : bold;
+}
+
+paren-match {
+    background : colors.yellow;
+}
+
+paren-mismatch, mismatch {
+    background : colors.purple;
+    foreground : white;
+}
+
+todo {
+    color : colors.red;
+}
+
+// Emacs-specific colors
+
+mode-line {
+    color      : colors.almost-white;
+    background : colors.dark-blue;
+}
+
+mode-line-inactive {
+    color      : colors.light-gray;
+    background : colors.dark-blue;
+}
+
+compilation-info {
+    color : colors.blue;
+}
+
+compilation-error {
+    color : colors.red;
+}
+
+org-todo {
+    color : colors.red;
+}
+
+org-done {
+    color : colors.green;
+}
+
+ido-first-match, ido-only-match {
+    color : colors.blue;
+}
+
+ido-subdir {
+    color : colors.purple;
+}
+
+secondary-selection {
+    background : colors.faint-gray;
+}
