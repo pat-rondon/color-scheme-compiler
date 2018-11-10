@@ -71,7 +71,7 @@ error {
     color : colors.kinda-red;
 }
 
-selection {
+selection, tooltip {
     background : colors.faint-gray;
 }
 
@@ -95,6 +95,16 @@ paren-mismatch, mismatch {
     foreground : white;
 }
 
+completion-selection {
+    background  : colors.dark-gray;
+    foreground  : white;
+    font-weight : bold;
+}
+
+completion-common-portion {
+    font-weight : bold;
+}
+
 todo {
     color : colors.kinda-red;
 }
@@ -103,12 +113,12 @@ todo {
 
 mode-line {
     color      : white;
-    background : colors.dark-gray; 
+    background : colors.dark-gray;
 }
 
-mode-line-inactive { 
+mode-line-inactive {
     color      : colors.medium-gray;
-    background : colors.light-gray; 
+    background : colors.light-gray;
 }
 
 compilation-info {
