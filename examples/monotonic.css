@@ -101,6 +101,16 @@ completion-selection {
     font-weight : bold;
 }
 
+completion-annotation {
+    foreground : colors.medium-gray;
+    weight     : normal;
+}
+
+completion-annotation-selection {
+    foreground : white;
+    weight     : normal;
+}
+
 completion-common-portion {
     font-weight : bold;
 }
