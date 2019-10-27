@@ -1,0 +1,6 @@
+(executable
+  (name csc)
+  (libraries str))
+
+(ocamllex lexer)
+(ocamlyacc parser)
